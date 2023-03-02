@@ -125,13 +125,12 @@ namespace ChessGame
         {
 
 
-            //PrintBoard();
+            PrintBoard();
             Console.Write("\n\n");
             //int pieceIndex = PieceSelect();
 
             bool whiteToPlay = true;
-            //MoveGeneration.PieceLogic(whiteToPlay);
-            BishopTest.PieceLogic(whiteToPlay);
+            MoveGeneration.PieceLogic(whiteToPlay);
 
 
 

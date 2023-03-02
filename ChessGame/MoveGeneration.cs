@@ -9,34 +9,26 @@ namespace ChessGame
     class MoveGeneration
     {
         public static void PieceLogic(bool whiteToPlay)
-        {
-
-            // directions
-            int N = -8;
-            int E = 1;
-            int S = 8;
-            int W = -1;
-
-            int[] knightMoves = { N + N + E, E + N + E, E + S + E, S + S + E, S + S + W, W + S + W, W + N + W, N + N + W };
-
+        { 
             char[] whitePieces = { 'P', 'R', 'N', 'B', 'Q', 'K' };
             char[] blackPieces = { 'p', 'r', 'n', 'b', 'q', 'k' };
-            
+            char[] allPieces = { 'P', 'R', 'N', 'B', 'Q', 'K', 'p', 'r', 'n', 'b', 'q', 'k' };
+
 
             List<PLegal> move = new List<PLegal>();
             char[,] boardArray = Board.ChessBoard;
 
-            for(int i = 0; i < boardArray.GetLength(0); i++)
+            for (int i = 0; i < boardArray.GetLength(0); i++)
             {
-                for(int j = 0; j < boardArray.GetLength(1); j++)
+                for (int j = 0; j < boardArray.GetLength(1); j++)
                 {
-                    if (boardArray[i,j] == 'P')
+                    if (boardArray[i, j] == 'P' && whiteToPlay)
                     {
 
                         //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
                         if (boardArray[i - 1, j] == '.')
                         {
-                            move.Add(new PLegal() { currentPos = new int[] {i, j}, moveablePos = new int[] {i - 1, j} });
+                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
                         }
 
                         if (boardArray[i - 2, j] == '.' && i == 6)
@@ -49,7 +41,7 @@ namespace ChessGame
 
                     }
 
-                    if (boardArray[i,j] == 'N')
+                    if (boardArray[i, j] == 'N' && whiteToPlay)
                     {
                         int y;
                         int x;
@@ -63,12 +55,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -86,12 +85,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -107,12 +113,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -128,12 +141,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -150,12 +170,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -172,12 +199,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -194,12 +228,19 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
@@ -216,149 +257,175 @@ namespace ChessGame
                             }
                             else
                             {
-                                foreach (char piece in blackPieces)
+                                foreach (char piece in allPieces)
                                 {
-                                    if (boardArray[i + y, j + x] == piece)
+                                    try
                                     {
-                                        move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                        if (boardArray[i + y, j + x] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                            }
+                                        }
                                     }
+                                    catch (Exception) { }
                                 }
                             }
                         }
                         catch (Exception) { }
                     }
-                    if (boardArray[i, j] == 'B')
+                    //if a cell in the array is a white bishop
+                    if (boardArray[i, j] == 'B' && whiteToPlay)
                     {
-                        for (int z = 0; i-z >= 0 || i+j <= 7; z++)
+                        //loops inside board limits
+                        for (int z = 1; i - z >= 0 && j + z <= 7; z++)
                         {
-                            while (boardArray[i-z,j+z] == '.')
+                            //searches bishop diagonal squares top right
+                            if (boardArray[i - z, j + z] == '.')
                             {
+                                //adds to psuedo legal move list, passing current position and the square it can legally move to.
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
                             }
-                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
+                            else
+                            {
+                                //searches if the piece on the square is an enemy piece
+                                foreach (char piece in allPieces)
+                                {
+                                    //to avoid out of range errors 
+                                    try
+                                    {
+                                        if (boardArray[i - z, j + z] == piece)
+                                        {
+                                            //checks if current colour bishop is looking at opposite colour bishop
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
+                                                //setting z to 100 stops the bishop searching more squares in the diagonal
+                                                //this stops it from going through a enemy piece
+                                            }
+                                            else
+                                            {
+                                                z = 100;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception) { }
+                                }
+                            }
                         }
+
+                        for (int z = 1; i + z <= 7 && j + z <= 7; z++)
+                        {
+                            //searches bishop diagonal squares bottom right
+                            if (boardArray[i + z, j + z] == '.')
+                            {
+
+                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
+                            }
+                            else
+                            {
+                                foreach (char piece in allPieces)
+                                {
+                                    try
+                                    {
+                                        if (boardArray[i + z, j + z] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
+                                                z = 100;
+                                            }
+                                            else
+                                            {
+                                                z = 100;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception) { }
+                                }
+                            }
+                        }
+
+                        for (int z = 1; i + z <= 7 && j - z >= 0; z++)
+                        {
+                            //searches bishop diagonal squares bottom left
+                            if (boardArray[i + z, j - z] == '.')
+                            {
+
+                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
+                            }
+                            else
+                            {
+                                foreach (char piece in allPieces)
+                                {
+                                    try
+                                    {
+                                        if (boardArray[i + z, j - z] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
+                                                z = 100;
+                                            }
+                                            else
+                                            {
+                                                z = 100;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception) { }
+                                }
+                            }
+                        }
+
+                        for (int z = 1; i - z >= 0 && j - z >= 0; z++)
+                        {
+                            //searches bishop diagonal squares top left
+                            if (boardArray[i - z, j - z] == '.')
+                            {
+
+                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
+                            }
+                            else
+                            {
+                                foreach (char piece in allPieces)
+                                {
+                                    try
+                                    {
+                                        if (boardArray[i - z, j - z] == piece)
+                                        {
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            {
+                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
+                                                z = 100;
+                                            }
+                                            else
+                                            {
+                                                z = 100;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception) { }
+                                }
+                            }
+                        }
+
+
                     }
-
                 }
-            }
 
+                
+            }
             int count = 0;
-            foreach(PLegal moves in move)
+            foreach (PLegal moves in move)
             {
                 Console.WriteLine(moves);
                 count = count + 1;
             }
             Console.WriteLine(count);
-            
-            
-            
+
+
         }
     }
 }
-
-/*for (int i = 0; i < boardArray.Length; i++)
-{
-    if (boardArray[i, i] == 'P')
-    {
-        int direction = N;
-        //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
-        if (boardArray[i + (direction * modifier)] == '.')
-        {
-            move.Add(new PLegal() { piece = i, moveableSquare = i + direction });
-        }
-
-        direction = N + N;
-        if (boardArray[i + (direction * modifier)] == '.')
-        {
-            move.Add(new PLegal() { piece = i, moveableSquare = i + direction });
-        }
-
-        //search for pawn attacking squares
-        //set attacking square index location to '.'
-
-    }
-
-    if (boardArray[i] == 'N')
-    {
-        foreach(int direction in knightMoves)
-        {
-            int y = 0;
-            foreach(char fPiece in friendlyPieces)
-            {
-                //makes sure there are no duplicate entries
-                y += 1;
-
-                //if boardArray[i + direction] is out of range this stops program from crashing
-                try
-                {
-
-
-                    //CHANGE TO 2D ARRAY BOARD, EASIER TO USE
-                    char letter = boardArray[i + direction];
-                    if (letter != fPiece & y == 6)
-                    {
-                        move.Add(new PLegal() { piece = i, moveableSquare = i + direction });
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-        }
-
-    }
-
-}*/
-
-
-
-
-
-
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = N + N + E;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = E + E + N;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = E + E + S;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = S + S + E;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = S + S + W;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = W + W + S;
-//if (boardArray[i + direction] == '.')
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
-
-//direction = W + W + N;
-//if (boardArray[i + direction] == '.' )
-//{
-//    move.Add(new PLegal() { piece = boardArray[i], moveableSquare = boardArray[i + direction] });
-//}
