@@ -11,7 +11,7 @@ namespace ChessGame
             {
                 for (int j = 0; j < Board.ChessBoard.GetLength(1); j++)
                 {
-                    Console.Write(Board.ChessBoard[i,j]);
+                    Console.Write(Board.ChessBoard[i,j] + " ");
                 }
                 Console.WriteLine();
             }

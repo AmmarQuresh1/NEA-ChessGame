@@ -17,17 +17,17 @@ namespace ChessGame
             {'.', '.', '.', '.', '.', '.', '.', '.' },
             {'.', '.', '.', '.', '.', '.', '.', '.' },
             {'.', '.', '.', '.', '.', '.', '.', '.' },
-            {'.', '.', '.', '.', '.', '.', '.', '.' },
-            {'.', '.', 'K', '.', '.', '.', '.', '.' },
-            {'.', '.', '.', '.', '.', '.', '.', '.' },
-            {'B', '.', '.', '.', '.', '.', '.', '.' }
+            {'.', 'n', '.', 'P', '.', '.', '.', '.' },
+            {'.', '.', 'B', '.', '.', '.', '.', '.' },
+            {'.', '.', '.', 'b', '.', '.', '.', '.' },
+            {'r', '.', '.', '.', '.', '.', '.', '.' }
             };
 
             for (int i = 0; i < BishopTest.GetLength(0); i++)
             {
                 for (int j = 0; j < BishopTest.GetLength(1); j++)
                 {
-                    Console.Write(BishopTest[i, j]);
+                    Console.Write(BishopTest[i, j] + " ");
                 }
                 Console.WriteLine();
             }
@@ -50,7 +50,7 @@ namespace ChessGame
             }
 
             List<PLegal> move = new List<PLegal>();
-            char[,] boardArray = BishopTest;
+            char[,] boardArray = BishopTest;;
 
             //loop through 2d array which represents chess board
             for (int i = 0; i < boardArray.GetLength(0); i++)
@@ -80,14 +80,14 @@ namespace ChessGame
                                         if (boardArray[i - z, j + z] == piece)
                                         {
                                             //checks if current colour bishop is looking at opposite colour bishop
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i,j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i,j] & piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
                                             {
                                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
+                                                //setting z to 100 stops the bishop searching more squares in the diagonal
+                                                //this stops it from going through a enemy piece
                                             }
                                             else
                                             {
-                                                //setting z to 100 stops the bishop searching more squares in the diagonal
-                                                //this stops it from going through a enemy piece
                                                 z = 100;
                                             }
                                         }
@@ -97,7 +97,7 @@ namespace ChessGame
                             }
                         }
 
-                        for (int z = 0; i + z <= 7 && j + z <= 7; z++)
+                        for (int z = 1; i + z <= 7 && j + z <= 7; z++)
                         {
                             //searches bishop diagonal squares bottom right
                             if (boardArray[i + z, j + z] == '.')
@@ -116,6 +116,7 @@ namespace ChessGame
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
+                                                z = 100;
                                             }
                                             else
                                             {
@@ -128,7 +129,7 @@ namespace ChessGame
                             }
                         }
 
-                        for (int z = 0; i + z <= 7 && j - z >= 0; z++)
+                        for (int z = 1; i + z <= 7 && j - z >= 0; z++)
                         {
                             //searches bishop diagonal squares bottom left
                             if (boardArray[i + z, j - z] == '.')
@@ -147,6 +148,7 @@ namespace ChessGame
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
+                                                z = 100;
                                             }
                                             else
                                             {
@@ -159,7 +161,7 @@ namespace ChessGame
                             }
                         }
 
-                        for (int z = 0; i - z >= 0 && j - z >= 0; z++)
+                        for (int z = 1; i - z >= 0 && j - z >= 0; z++)
                         {
                             //searches bishop diagonal squares top left
                             if (boardArray[i - z, j - z] == '.')
@@ -178,6 +180,7 @@ namespace ChessGame
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
+                                                z = 100;
                                             }
                                             else
                                             {
