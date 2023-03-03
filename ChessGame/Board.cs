@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChessGame
 {
-    class Board
+    static class Board
     {
         //lowercase letters represent the black pieces and upercase letters represent the white pieces 
 

@@ -6,6 +6,9 @@ namespace ChessGame
 {
     internal class PLegal
     {
+
+
+
         //Pseudo-legal moves obey normal rules of piece movement but don't check to see if the king is left in check
 
         // the board index of the piece and the index of the square it can move to  

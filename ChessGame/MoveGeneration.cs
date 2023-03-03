@@ -8,20 +8,22 @@ namespace ChessGame
 {
     class MoveGeneration
     {
+        public static List<PLegal> move = new List<PLegal>();
+
         public static void PieceLogic(bool whiteToPlay)
         { 
             char[] whitePieces = { 'P', 'R', 'N', 'B', 'Q', 'K' };
             char[] blackPieces = { 'p', 'r', 'n', 'b', 'q', 'k' };
             char[] allPieces = { 'P', 'R', 'N', 'B', 'Q', 'K', 'p', 'r', 'n', 'b', 'q', 'k' };
 
-
-            List<PLegal> move = new List<PLegal>();
+            
             char[,] boardArray = Board.ChessBoard;
 
             for (int i = 0; i < boardArray.GetLength(0); i++)
             {
                 for (int j = 0; j < boardArray.GetLength(1); j++)
                 {
+                    //white pawn 
                     if (boardArray[i, j] == 'P' && whiteToPlay)
                     {
 
@@ -31,7 +33,29 @@ namespace ChessGame
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
                         }
 
+                        //for a pawn moving 2 squares ahead when on the second rank of the board
                         if (boardArray[i - 2, j] == '.' && i == 6)
+                        {
+                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
+                        }
+
+                        //search for pawn attacking squares
+                        //set attacking square index location to '.'
+
+                    }
+
+                    //black pawn
+                    else if (boardArray[i, j] == 'p' && !whiteToPlay)
+                    {
+
+                        //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
+                        if (boardArray[i + 1, j] == '.')
+                        {
+                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
+                        }
+
+                        //for a pawn moving 2 squares ahead when on the seventh rank of the board
+                        if (boardArray[i + 2, j] == '.' && i == 1)
                         {
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
                         }
@@ -427,5 +451,7 @@ namespace ChessGame
 
 
         }
+
+        
     }
 }
