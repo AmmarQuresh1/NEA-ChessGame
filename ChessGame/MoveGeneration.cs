@@ -28,13 +28,13 @@ namespace ChessGame
                     {
 
                         //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
-                        if (boardArray[i - 1, j] == '.')
+                        if (boardArray[i - 1, j] == '-')
                         {
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
                         }
 
                         //for a pawn moving 2 squares ahead when on the second rank of the board
-                        if (boardArray[i - 2, j] == '.' && i == 6)
+                        if (boardArray[i - 2, j] == '-' && i == 6)
                         {
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
                         }
@@ -49,13 +49,13 @@ namespace ChessGame
                     {
 
                         //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
-                        if (boardArray[i + 1, j] == '.')
+                        if (boardArray[i + 1, j] == '-')
                         {
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
                         }
 
                         //for a pawn moving 2 squares ahead when on the seventh rank of the board
-                        if (boardArray[i + 2, j] == '.' && i == 1)
+                        if (boardArray[i + 2, j] == '-' && i == 1)
                         {
                             move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
                         }
@@ -73,7 +73,7 @@ namespace ChessGame
                         {
                             y = -2;
                             x = 1;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -103,7 +103,7 @@ namespace ChessGame
                         {
                             y = -1;
                             x = 2;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -131,7 +131,7 @@ namespace ChessGame
                         {
                             y = 1;
                             x = 2;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -159,7 +159,7 @@ namespace ChessGame
                         {
                             y = 2;
                             x = 1;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -188,7 +188,7 @@ namespace ChessGame
                         {
                             y = 2;
                             x = -1;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -217,7 +217,7 @@ namespace ChessGame
                         {
                             y = 1;
                             x = -2;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -246,7 +246,7 @@ namespace ChessGame
                         {
                             y = -1;
                             x = -2;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -275,7 +275,7 @@ namespace ChessGame
                         {
                             y = -2;
                             x = -1;
-                            if (boardArray[i + y, j + x] == '.')
+                            if (boardArray[i + y, j + x] == '-')
                             {
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
                             }
@@ -306,7 +306,7 @@ namespace ChessGame
                         for (int z = 1; i - z >= 0 && j + z <= 7; z++)
                         {
                             //searches bishop diagonal squares top right
-                            if (boardArray[i - z, j + z] == '.')
+                            if (boardArray[i - z, j + z] == '-')
                             {
                                 //adds to psuedo legal move list, passing current position and the square it can legally move to.
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
@@ -342,7 +342,7 @@ namespace ChessGame
                         for (int z = 1; i + z <= 7 && j + z <= 7; z++)
                         {
                             //searches bishop diagonal squares bottom right
-                            if (boardArray[i + z, j + z] == '.')
+                            if (boardArray[i + z, j + z] == '-')
                             {
 
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
@@ -374,7 +374,7 @@ namespace ChessGame
                         for (int z = 1; i + z <= 7 && j - z >= 0; z++)
                         {
                             //searches bishop diagonal squares bottom left
-                            if (boardArray[i + z, j - z] == '.')
+                            if (boardArray[i + z, j - z] == '-')
                             {
 
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
@@ -406,7 +406,7 @@ namespace ChessGame
                         for (int z = 1; i - z >= 0 && j - z >= 0; z++)
                         {
                             //searches bishop diagonal squares top left
-                            if (boardArray[i - z, j - z] == '.')
+                            if (boardArray[i - z, j - z] == '-')
                             {
 
                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
