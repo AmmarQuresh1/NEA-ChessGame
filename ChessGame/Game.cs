@@ -71,7 +71,7 @@ namespace ChessGame
 
             bool whiteToPlay = true;
             MoveGeneration.PieceLogic(whiteToPlay);
-            PlayMove.MakeMove();
+            PlayMove.MakeMove(whiteToPlay);
 
 
             //https://learn.microsoft.com/en-us/dotnet/csharp/how-to/modify-string-contents

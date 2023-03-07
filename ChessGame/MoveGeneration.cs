@@ -321,7 +321,7 @@ namespace ChessGame
                                     {
                                         if (boardArray[i - z, j + z] == piece)
                                         {
-                                            //checks if current colour bishop is looking at opposite colour bishop
+                                            //checks if current colour bishop is looking at opposite colour piece
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
                                             {
                                                 move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
