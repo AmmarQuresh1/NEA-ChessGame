@@ -19,63 +19,25 @@ namespace ChessGame
             Console.WriteLine("    _______________"+"\n    A B C D E F G H");
         }
 
-        /* this is so normal chess notation for ranks and files can be inputted
-         * by users. This function converts those inputs into co-ordinates for the
-         * 2d board array. 
-        */
-
-        public static int LocationConvert(char selectedFile, int selectedRank)
-        {
-            char[] boardArray;
-            //boardArray = Board.ChessBoard.ToCharArray();
-
-            int row;
-            row = 9 - selectedRank;
-            row = row * 8;
-
-
-            int positionInRow;
-            selectedFile = char.ToLower(selectedFile);
-            positionInRow = ((int)selectedFile - 97);
-
-            int index = row - (8 - positionInRow);
-            return index;
-        }
-
-        public static int PieceSelect()
-        {
-            char selectedFile;
-            int selectedRank;
-
-            int pieceIndex;
-
-            Console.WriteLine("Enter co-ordinate of piece square: ");
-            string chosenSquare = Console.ReadLine();
-            chosenSquare = chosenSquare.ToUpper();
-            selectedFile = chosenSquare[0];
-            selectedRank = chosenSquare[1] - '0';
-
-            pieceIndex = LocationConvert(selectedFile, selectedRank);
-
-            return pieceIndex;
-            
-        }
-
-            static void Main()
-        {
-
-
-            PrintBoard();
-            Console.Write("\n\n");
-            //int pieceIndex = PieceSelect();
-
+        static void Main()
+        {   
+            bool gameEnd = false;
             bool whiteToPlay = true;
-            MoveGeneration.PieceLogic(whiteToPlay);
-            PlayMove.MakeMove(whiteToPlay);
 
+            while (!gameEnd)
+            {
+                PrintBoard();
+                Console.Write("\n");
+                MoveGeneration.PieceLogic(whiteToPlay);
+                PlayMove.MakeMove(whiteToPlay);
+                //whiteToPlay = false;
+                Console.Clear();
+            }
 
-            //https://learn.microsoft.com/en-us/dotnet/csharp/how-to/modify-string-contents
-
+            //next steps
+            //finish move generator
+            //implement computer black movement
+            //implement game end state checker (a king dies)
         }
     }
 }

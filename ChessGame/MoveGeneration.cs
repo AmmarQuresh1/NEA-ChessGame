@@ -8,16 +8,18 @@ namespace ChessGame
 {
     class MoveGeneration
     {
-        public static List<PLegal> move = new List<PLegal>();
+        public static List<int[]> moves = new List<int[]>();
 
         public static void PieceLogic(bool whiteToPlay)
-        { 
+        {
             char[] whitePieces = { 'P', 'R', 'N', 'B', 'Q', 'K' };
             char[] blackPieces = { 'p', 'r', 'n', 'b', 'q', 'k' };
             char[] allPieces = { 'P', 'R', 'N', 'B', 'Q', 'K', 'p', 'r', 'n', 'b', 'q', 'k' };
 
-            
+
             char[,] boardArray = Board.ChessBoard;
+
+            moves.Clear();
 
             for (int i = 0; i < boardArray.GetLength(0); i++)
             {
@@ -30,13 +32,13 @@ namespace ChessGame
                         //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
                         if (boardArray[i - 1, j] == '-')
                         {
-                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
+                            moves.Add(new int[] { i, j, i - 1, j });
                         }
 
                         //for a pawn moving 2 squares ahead when on the second rank of the board
                         if (boardArray[i - 2, j] == '-' && i == 6)
                         {
-                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
+                            moves.Add(new int[] { i, j, i - 2, j });
                         }
 
                         //search for pawn attacking squares
@@ -51,13 +53,13 @@ namespace ChessGame
                         //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
                         if (boardArray[i + 1, j] == '-')
                         {
-                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 1, j } });
+                            moves.Add(new int[] { i, j, i + 1, j });
                         }
 
                         //for a pawn moving 2 squares ahead when on the seventh rank of the board
                         if (boardArray[i + 2, j] == '-' && i == 1)
                         {
-                            move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - 2, j } });
+                            moves.Add(new int[] { i, j, i + 2, j });
                         }
 
                         //search for pawn attacking squares
@@ -75,7 +77,7 @@ namespace ChessGame
                             x = 1;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -87,7 +89,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -105,7 +107,7 @@ namespace ChessGame
                             x = 2;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -117,7 +119,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -133,7 +135,7 @@ namespace ChessGame
                             x = 2;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -145,7 +147,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -161,7 +163,7 @@ namespace ChessGame
                             x = 1;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -173,7 +175,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -190,7 +192,7 @@ namespace ChessGame
                             x = -1;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -202,7 +204,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -219,7 +221,7 @@ namespace ChessGame
                             x = -2;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -231,7 +233,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -248,7 +250,7 @@ namespace ChessGame
                             x = -2;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -260,7 +262,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -277,7 +279,7 @@ namespace ChessGame
                             x = -1;
                             if (boardArray[i + y, j + x] == '-')
                             {
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                moves.Add(new int[] { i, j, i + y, j + x });
                             }
                             else
                             {
@@ -289,7 +291,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + y, j + x } });
+                                                moves.Add(new int[] { i, j, i + y, j + x });
                                             }
                                         }
                                     }
@@ -299,6 +301,7 @@ namespace ChessGame
                         }
                         catch (Exception) { }
                     }
+                    /*
                     //if a cell in the array is a white bishop
                     if (boardArray[i, j] == 'B' && whiteToPlay)
                     {
@@ -436,22 +439,11 @@ namespace ChessGame
                         }
 
 
-                    }
+                    }*/
                 }
 
-                
-            }
-            int count = 0;
-            foreach (PLegal moves in move)
-            {
-                Console.WriteLine(moves);
-                count = count + 1;
-            }
-            Console.WriteLine(count);
 
-
+            }
         }
-
-        
     }
 }
