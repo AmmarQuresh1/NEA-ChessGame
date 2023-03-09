@@ -27,15 +27,20 @@ namespace ChessGame
             
             while (!validMoveSelection) 
             {
-                Console.WriteLine("Select piece to move: ");
-                sSquare = Console.ReadLine();
-                sRow = 8 - Convert.ToInt16(Char.GetNumericValue(sSquare[1]));
-                sFile = sSquare[0] - 97;
+                try
+                {
+                    Console.WriteLine("Select piece to move: ");
+                    sSquare = Console.ReadLine();
+                    sRow = 8 - Convert.ToInt16(Char.GetNumericValue(sSquare[1]));
+                    sFile = sSquare[0] - 97;
 
-                Console.WriteLine("Select square to move to: ");
-                eSquare = Console.ReadLine();
-                eRow = 8 - Convert.ToInt16(Char.GetNumericValue(eSquare[1]));
-                eFile = eSquare[0] - 97;
+                    Console.WriteLine("Select square to move to: ");
+                    eSquare = Console.ReadLine();
+                    eRow = 8 - Convert.ToInt16(Char.GetNumericValue(eSquare[1]));
+                    eFile = eSquare[0] - 97;
+                }
+                catch{ }
+                
                 for (int i = 0; i < moves.Count; i++)
                 {
                     if (moves[i].SequenceEqual(new int[] { sRow, sFile, eRow, eFile }))

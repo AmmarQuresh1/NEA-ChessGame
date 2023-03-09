@@ -301,7 +301,7 @@ namespace ChessGame
                         }
                         catch (Exception) { }
                     }
-                    /*
+                    
                     //if a cell in the array is a white bishop
                     if (boardArray[i, j] == 'B' && whiteToPlay)
                     {
@@ -312,7 +312,7 @@ namespace ChessGame
                             if (boardArray[i - z, j + z] == '-')
                             {
                                 //adds to psuedo legal move list, passing current position and the square it can legally move to.
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
+                                moves.Add(new int[] { i, j, i - z, j + z } );
                             }
                             else
                             {
@@ -327,7 +327,7 @@ namespace ChessGame
                                             //checks if current colour bishop is looking at opposite colour piece
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j + z } });
+                                                moves.Add(new int[]{i, j, i - z, j + z});
                                                 //setting z to 100 stops the bishop searching more squares in the diagonal
                                                 //this stops it from going through a enemy piece
                                             }
@@ -348,7 +348,7 @@ namespace ChessGame
                             if (boardArray[i + z, j + z] == '-')
                             {
 
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
+                                moves.Add(new int[] { i, j , i + z, j + z } );
                             }
                             else
                             {
@@ -360,7 +360,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j + z } });
+                                                moves.Add(new int[] { i, j, i + z, j + z });
                                                 z = 100;
                                             }
                                             else
@@ -380,7 +380,7 @@ namespace ChessGame
                             if (boardArray[i + z, j - z] == '-')
                             {
 
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
+                                moves.Add(new int[] { i, j , i + z, j - z });
                             }
                             else
                             {
@@ -392,7 +392,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i + z, j - z } });
+                                                moves.Add(new int[] { i, j, i + z, j - z });
                                                 z = 100;
                                             }
                                             else
@@ -412,7 +412,7 @@ namespace ChessGame
                             if (boardArray[i - z, j - z] == '-')
                             {
 
-                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
+                                moves.Add(new int[]{ i, j, i - z, j - z  });
                             }
                             else
                             {
@@ -424,7 +424,7 @@ namespace ChessGame
                                         {
                                             if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
-                                                move.Add(new PLegal() { currentPos = new int[] { i, j }, moveablePos = new int[] { i - z, j - z } });
+                                                moves.Add(new int[] { i, j, i - z, j - z } );
                                                 z = 100;
                                             }
                                             else
@@ -439,7 +439,7 @@ namespace ChessGame
                         }
 
 
-                    }*/
+                    }
                 }
 
 
