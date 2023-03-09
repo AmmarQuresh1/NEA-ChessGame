@@ -9,19 +9,6 @@ namespace ChessGame
         //lowercase letters represent the black pieces and upercase letters represent the white pieces 
 
         //Global
-        /*
-        public static string ChessBoard =
-                "rnbqkbnr" +
-                "pppppppp" +
-                "........" +
-                "........" +
-                "........" +
-                "........" +
-                "PPPPPPPP" +
-                "RNBQKBNR";
-        */
-        //change to 2d array
-
         public static char[,] ChessBoard =
         {
             {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r' },
