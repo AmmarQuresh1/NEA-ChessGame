@@ -19,6 +19,7 @@ namespace ChessGame
 
             char[,] boardArray = Board.ChessBoard;
 
+            //clears previous moves
             moves.Clear();
 
             for (int i = 0; i < boardArray.GetLength(0); i++)
@@ -28,280 +29,159 @@ namespace ChessGame
                     //white pawn 
                     if (boardArray[i, j] == 'P' && whiteToPlay)
                     {
-
-                        //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
-                        if (boardArray[i - 1, j] == '-')
+                        try
                         {
-                            moves.Add(new int[] { i, j, i - 1, j });
+                            //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
+                            if (boardArray[i - 1, j] == '-')
+                            {
+                                moves.Add(new int[] { i, j, i - 1, j });
+                            }
+
+                            //for a pawn moving 2 squares ahead when on the second rank of the board
+                            if (boardArray[i - 2, j] == '-' && i == 6)
+                            {
+                                moves.Add(new int[] { i, j, i - 2, j });
+                            }
+                        }
+                        catch { }
+                        
+                        //pawn detecting what piece is on the top right diagonal square and if there is a piece it will be allowed to take 
+                        foreach (char piece in allPieces)
+                        {
+                            try
+                            {
+                                if (boardArray[i - 1, j + 1] == piece)
+                                {
+                                    if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) 
+                                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                    {
+                                        moves.Add(new int[] { i, j, i - 1, j + 1 });
+                                    }
+                                }
+                            }
+                            catch (Exception) { }
                         }
 
-                        //for a pawn moving 2 squares ahead when on the second rank of the board
-                        if (boardArray[i - 2, j] == '-' && i == 6)
+                        //pawn detecting what piece is on the top left diagonal square and if there is a piece it will be allowed to take 
+                        foreach (char piece in allPieces)
                         {
-                            moves.Add(new int[] { i, j, i - 2, j });
+                            try
+                            {
+                                if (boardArray[i - 1, j - 1] == piece)
+                                {
+                                    if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) 
+                                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                    {
+                                        moves.Add(new int[] { i, j, i - 1, j - 1 });
+                                    }
+                                }
+                            }
+                            catch (Exception) { }
                         }
-
-                        //search for pawn attacking squares
-                        //set attacking square index location to '.'
-
                     }
 
                     //black pawn
                     else if (boardArray[i, j] == 'p' && !whiteToPlay)
                     {
-
-                        //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
-                        if (boardArray[i + 1, j] == '-')
+                        try
                         {
-                            moves.Add(new int[] { i, j, i + 1, j });
+                            //looks at one square ahead, if that square is empty add to the list the index of the current square and index of the empty square
+                            if (boardArray[i + 1, j] == '-')
+                            {
+                                moves.Add(new int[] { i, j, i + 1, j });
+                            }
+
+                            //for a pawn moving 2 squares ahead when on the seventh rank of the board
+                            if (boardArray[i + 2, j] == '-' && i == 1)
+                            {
+                                moves.Add(new int[] { i, j, i + 2, j });
+                            }
+                        }
+                        catch { }
+
+                        //pawn detecting what piece is on the bottom left diagonal square and if there is a opposite colour piece it will be allowed to take 
+                        foreach (char piece in allPieces)
+                        {
+                            try
+                            {
+                                if (boardArray[i + 1, j + 1] == piece)
+                                {
+                                    if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
+                                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                    {
+                                        moves.Add(new int[] { i, j, i + 1, j + 1 });
+                                    }
+                                }
+                            }
+                            catch (Exception) { }
                         }
 
-                        //for a pawn moving 2 squares ahead when on the seventh rank of the board
-                        if (boardArray[i + 2, j] == '-' && i == 1)
+                        //pawn detecting what piece is on the bottom left diagonal square and if there is a opposite colour piece it will be allowed to take 
+                        foreach (char piece in allPieces)
                         {
-                            moves.Add(new int[] { i, j, i + 2, j });
+                            try
+                            {
+                                if (boardArray[i + 1, j - 1] == piece)
+                                {
+                                    if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
+                                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                    {
+                                        moves.Add(new int[] { i, j, i + 1, j - 1 });
+                                    }
+                                }
+                            }
+                            catch (Exception) { }
                         }
-
-                        //search for pawn attacking squares
-                        //set attacking square index location to '.'
 
                     }
 
-                    if (boardArray[i, j] == 'N' && whiteToPlay)
+                    //logic for knights
+                    if (boardArray[i, j] == 'N' || boardArray[i, j] == 'n')
                     {
-                        int y;
-                        int x;
-                        try
+                        //each cell stores y move then x move
+                        int[,] knightMoves = new int[,] { { -2, 1 }, {-1, 2 }, {1, 2 }, {2, 1 }, {2,-1 }, { 1, -2 }, { -1, -2 }, { -2, -1 } };
+                        int y = knightMoves[0,0];
+                        int x = knightMoves[0, 1];
+                        for (int l = 0; l < 8; l++)
                         {
-                            y = -2;
-                            x = 1;
-                            if (boardArray[i + y, j + x] == '-')
+                            try
                             {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
+                                if (boardArray[i + y, j + x] == '-' && boardArray[i,j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
                                 {
-                                    try
+                                    moves.Add(new int[] { i, j, i + y, j + x });
+                                }
+                                else if(boardArray[i + y, j + x] == '-' && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay) 
+                                {
+                                    moves.Add(new int[] { i, j, i + y, j + x });
+                                }
+                                else
+                                {
+                                    foreach (char piece in allPieces)
                                     {
-                                        if (boardArray[i + y, j + x] == piece)
+                                        try
                                         {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            if (boardArray[i + y, j + x] == piece)
                                             {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
+                                                if (boardArray[i, j] == Char.ToUpper(boardArray[i, j])  && piece == Char.ToLower(piece) && whiteToPlay)
+                                                {
+                                                    moves.Add(new int[] { i, j, i + y, j + x });
+                                                }
+                                                else if(boardArray[i, j] == Char.ToLower(boardArray[i, j])&& piece == Char.ToUpper(piece) && !whiteToPlay)
+                                                {
+                                                    moves.Add(new int[] { i, j, i + y, j + x });
+                                                }
                                             }
                                         }
+                                        catch (Exception) { }
                                     }
-                                    catch (Exception) { }
                                 }
                             }
+                            catch (Exception) { }
+                            y = knightMoves[l, 0];
+                            x = knightMoves[l, 1];
                         }
-                        catch (Exception) { }
-
-
-
-                        try
-                        {
-                            y = -1;
-                            x = 2;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-                        try
-                        {
-                            y = 1;
-                            x = 2;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-                        try
-                        {
-                            y = 2;
-                            x = 1;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-
-                        try
-                        {
-                            y = 2;
-                            x = -1;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-
-                        try
-                        {
-                            y = 1;
-                            x = -2;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-
-                        try
-                        {
-                            y = -1;
-                            x = -2;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
-
-
-                        try
-                        {
-                            y = -2;
-                            x = -1;
-                            if (boardArray[i + y, j + x] == '-')
-                            {
-                                moves.Add(new int[] { i, j, i + y, j + x });
-                            }
-                            else
-                            {
-                                foreach (char piece in allPieces)
-                                {
-                                    try
-                                    {
-                                        if (boardArray[i + y, j + x] == piece)
-                                        {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
-                                            {
-                                                moves.Add(new int[] { i, j, i + y, j + x });
-                                            }
-                                        }
-                                    }
-                                    catch (Exception) { }
-                                }
-                            }
-                        }
-                        catch (Exception) { }
                     }
-                    
+
                     //if a cell in the array is a white bishop
                     if (boardArray[i, j] == 'B' && whiteToPlay)
                     {
@@ -325,7 +205,8 @@ namespace ChessGame
                                         if (boardArray[i - z, j + z] == piece)
                                         {
                                             //checks if current colour bishop is looking at opposite colour piece
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToLower(piece) 
+                                                || Char.ToLower(boardArray[i, j]) == boardArray[i, j] & piece == Char.ToUpper(piece))
                                             {
                                                 moves.Add(new int[]{i, j, i - z, j + z});
                                                 //setting z to 100 stops the bishop searching more squares in the diagonal
@@ -358,7 +239,8 @@ namespace ChessGame
                                     {
                                         if (boardArray[i + z, j + z] == piece)
                                         {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) 
+                                                || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 moves.Add(new int[] { i, j, i + z, j + z });
                                                 z = 100;
@@ -390,7 +272,8 @@ namespace ChessGame
                                     {
                                         if (boardArray[i + z, j - z] == piece)
                                         {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) 
+                                                || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 moves.Add(new int[] { i, j, i + z, j - z });
                                                 z = 100;
@@ -422,7 +305,8 @@ namespace ChessGame
                                     {
                                         if (boardArray[i - z, j - z] == piece)
                                         {
-                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                                            if (Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) 
+                                                || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
                                             {
                                                 moves.Add(new int[] { i, j, i - z, j - z } );
                                                 z = 100;
@@ -438,12 +322,17 @@ namespace ChessGame
                             }
                         }
 
-
                     }
                 }
 
-
             }
+            int count = 0;
+            for (int i = 0; i < moves.Count; i++)
+            {
+                Console.WriteLine(String.Join(" ", moves[i]));
+                count += 1;
+            }
+            Console.WriteLine(count);
         }
     }
 }
