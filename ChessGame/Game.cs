@@ -29,15 +29,25 @@ namespace ChessGame
                 PrintBoard();
                 Console.Write("\n");
                 MoveGeneration.PieceLogic(whiteToPlay);
-                PlayMove.MakeMove(whiteToPlay);
-                //whiteToPlay = false;
+                if (whiteToPlay)
+                {
+                    PlayMove.MakeMove();
+                    whiteToPlay = false;
+                }
+                else
+                {
+                    PlayMove.BlackMove();
+                    whiteToPlay = true;
+                }
                 Console.Clear();
             }
 
-            //next steps
-            //finish move generator
-            //implement computer black movement
+            //next steps:
+
+            //DONE finish move generator 
             //implement game end state checker (a king dies)
+            //Give instructions on first open
+            //implement computer black movement
         }
     }
 }

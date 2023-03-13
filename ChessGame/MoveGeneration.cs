@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,7 +16,7 @@ namespace ChessGame
     {
         public static List<int[]> moves = new List<int[]>();
         static char[,] boardArray = Board.ChessBoard;
-        static char[] allPieces = { 'P', 'R', 'N', 'B', 'Q', 'K', 'p', 'r', 'n', 'b', 'q', 'k' };
+        static char[] allPieces = { 'P', 'R', 'N', 'B', 'Q', 'K'};
 
         static void WhitePawnLogic(int i, int j)
         {
@@ -25,7 +26,6 @@ namespace ChessGame
                 if (boardArray[i - 1, j] == '-')
                 {
                     moves.Add(new int[] { i, j, i - 1, j });
-                    
                 }
 
                 //for a pawn moving 2 squares ahead when on the second rank of the board
@@ -41,32 +41,26 @@ namespace ChessGame
             {
                 try
                 {
-                    if (boardArray[i - 1, j + 1] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
-                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                    if (boardArray[i - 1, j + 1] == Char.ToLower(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
                     {
-                        
-                        moves.Add(new int[] { i, j, i - 1, j + 1 }); 
+                        moves.Add(new int[] { i, j, i - 1, j + 1 });
                     }
                 }
                 catch (Exception) { }
-            }
-
-            //pawn detecting what piece is on the top left diagonal square and if there is a piece it will be allowed to take 
-            foreach (char piece in allPieces)
-            {
                 try
                 {
-                    if (boardArray[i - 1, j - 1] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
-                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                    //pawn detecting what piece is on the top left diagonal square and if there is a piece it will be allowed to take 
+
+                    if (boardArray[i - 1, j - 1] == Char.ToLower(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
                     {
-                        
-                        
                         moves.Add(new int[] { i, j, i - 1, j - 1 });
-                        
                     }
                 }
                 catch (Exception) { }
+
             }
+
+            //ADD IN ABILITY TO PROMOTE 
         }
 
         static void BlackPawnLogic(int i, int j)
@@ -78,7 +72,6 @@ namespace ChessGame
                 {
                     moves.Add(new int[] { i, j, i + 1, j });
                 }
-
                 //for a pawn moving 2 squares ahead when on the seventh rank of the board
                 if (boardArray[i + 2, j] == '-' && i == 1)
                 {
@@ -92,28 +85,18 @@ namespace ChessGame
             {
                 try
                 {
-                    if (boardArray[i + 1, j + 1] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
-                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                    if (boardArray[i + 1, j + 1] == Char.ToUpper(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
                     {
-
                         moves.Add(new int[] { i, j, i + 1, j + 1 });
-                        
                     }
                 }
                 catch (Exception) { }
-            }
-
-            //pawn detecting what piece is on the bottom left diagonal square and if there is a opposite colour piece it will be allowed to take 
-            foreach (char piece in allPieces)
-            {
                 try
                 {
-                    if (boardArray[i + 1, j - 1] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece)
-                        || Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece))
+                    //pawn detecting what piece is on the bottom left diagonal square and if there is a opposite colour piece it will be allowed to take 
+                    if (boardArray[i + 1, j - 1] == Char.ToUpper(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
                     {
-
                         moves.Add(new int[] { i, j, i + 1, j - 1 });
-                        
                     }
                 }
                 catch (Exception) { }
@@ -122,37 +105,37 @@ namespace ChessGame
 
         static void KnightsLogic(int i, int j, bool whiteToPlay)
         {
-            //each cell stores y move then x move
             int[,] knightMoves = new int[,] { { -2, 1 }, { -1, 2 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 } };
-            int y;
             int x;
+            int y;
             for (int l = 0; l < 8; l++)
             {
-                y = knightMoves[l, 0];
-                x = knightMoves[l, 1];
+                x = knightMoves[l, 0];
+                y = knightMoves[l, 1];
 
                 try
                 {
-                    if (boardArray[i + y, j + x] == '-' && boardArray[i, j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
+                    if (boardArray[i + x, j + y] == '-' && boardArray[i, j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
                     {
-                        moves.Add(new int[] { i, j, i + y, j + x });
+                        moves.Add(new int[] { i, j, i + x, j + y });
                     }
-                    else if(boardArray[i + y, j + x] == '-' && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay)
+                    else if(boardArray[i + x, j + y] == '-' && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay)
                     {
-                        moves.Add(new int[] { i, j, i + y, j + x });
+                        moves.Add(new int[] { i, j, i + x, j + y });
                         
                     }
-                    foreach (char piece in allPieces)
+                    else if(boardArray[i + x, j + y] != '-')
                     {
-                        if (boardArray[i + y, j + x] == piece && boardArray[i, j] == Char.ToUpper(boardArray[i, j])
-                            && piece == Char.ToLower(piece) && whiteToPlay)
+                        foreach (char piece in allPieces)
                         {
-                            moves.Add(new int[] { i, j, i + y, j + x });
-                        }
-                        else if(boardArray[i + y, j + x] == piece && boardArray[i, j] == Char.ToLower(boardArray[i, j]) 
-                            && piece == Char.ToUpper(piece) && !whiteToPlay)
-                        {
-                            moves.Add(new int[] { i, j, i + y, j + x });
+                            if (boardArray[i + x, j + y] == Char.ToLower(piece) && boardArray[i, j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
+                            {
+                                moves.Add(new int[] { i, j, i + x, j + y });
+                            }
+                            else if (boardArray[i + x, j + y] == Char.ToUpper(piece) && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay)
+                            {
+                                moves.Add(new int[] { i, j, i + x, j + y });
+                            }
                         }
                     }
                 }
@@ -160,140 +143,9 @@ namespace ChessGame
             }
         }
 
-        //static void BishopsLogic(int i, int j, bool whiteToPlay)
-        //{
-        //    //loops inside board limits
-        //    for (int z = 1; i - z >= 0 && j + z <= 7; z++)
-        //    {
-        //        //searches bishop diagonal squares top right
-        //        if (boardArray[i - z, j + z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
-        //        {
-        //            //adds to psuedo legal move list, passing current position and the square it can legally move to.
-        //            moves.Add(new int[] { i, j, i - z, j + z });
-        //        }
-        //        else if (boardArray[i - z, j + z] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i - z, j + z });
-        //        }
-        //        //searches if the piece on the square is an enemy piece
-        //        foreach (char piece in allPieces)
-        //        {
-        //            //to avoid out of range errors 
-        //            try
-        //            {
-        //                //checks if a white colour bishop is looking at opposite colour piece
-        //                if (boardArray[i - z, j + z] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) && whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i - z, j + z });
-        //                    //setting z to 100 stops the bishop searching more squares in the diagonal
-        //                    //this stops it from going through an enemy or friendly piece 
-        //                    z = 100;
-        //                }
-        //                //checks if a black colour bishop is looking at opposite colour piece
-        //                else if (boardArray[i - z, j + z] == piece && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece) && !whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i - z, j + z });
-        //                    z = 100;
-        //                }
-        //            }
-        //            catch (Exception) { }
-        //        }
-        //    }
-
-        //    for (int z = 1; i + z <= 7 && j + z <= 7; z++)
-        //    {
-        //        //searches bishop diagonal squares bottom right
-        //        if (boardArray[i + z, j + z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i + z, j + z });
-        //        }
-        //        else if (boardArray[i + z, j + z] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i + z, j + z });
-        //        }
-        //        foreach (char piece in allPieces)
-        //        {
-        //            try
-        //            {
-        //                if (boardArray[i + z, j + z] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) && whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i + z, j + z });
-        //                    z = 100;
-        //                }
-        //                else if (boardArray[i + z, j + z] == piece && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece) && !whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i + z, j + z });
-        //                    z = 100;
-        //                }
-        //            }
-        //            catch (Exception) { }
-        //        }
-        //    }
-
-        //    for (int z = 1; i + z <= 7 && j - z >= 0; z++)
-        //    {
-        //        //searches bishop diagonal squares bottom left
-        //        if (boardArray[i + z, j - z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i + z, j - z });
-        //        }
-        //        else if(boardArray[i + z, j - z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i + z, j - z });
-        //        }
-        //        foreach (char piece in allPieces)
-        //        {
-        //            try
-        //            {
-        //                if (boardArray[i + z, j - z] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) && whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i + z, j - z });
-        //                    z = 100;
-        //                }
-        //                else if (boardArray[i + z, j - z] == piece && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece) && !whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i + z, j - z });
-        //                    z = 100;
-        //                }
-        //            }
-        //            catch (Exception) { }
-        //        }
-        //    }
-
-        //    for (int z = 1; i - z >= 0 && j - z >= 0; z++)
-        //    {
-        //        //searches bishop diagonal squares top left
-        //        if (boardArray[i - z, j - z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i - z, j - z });
-        //        }
-        //        else if (boardArray[i - z, j - z] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
-        //        {
-        //            moves.Add(new int[] { i, j, i - z, j - z });
-        //        }
-        //        foreach (char piece in allPieces)
-        //        {
-        //            try
-        //            {
-        //                if (boardArray[i - z, j - z] == piece && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToLower(piece) && whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i - z, j - z });
-        //                    z = 100;
-        //                }
-        //                else if (boardArray[i - z, j - z] == piece && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && piece == Char.ToUpper(piece) && !whiteToPlay)
-        //                {
-        //                    moves.Add(new int[] { i, j, i - z, j - z });
-        //                    z = 100;
-        //                }
-        //            }
-        //            catch (Exception) { }
-        //        }
-        //    }
-        //}
-
         static void BishopsLogic(int i, int j, bool whiteToPlay)
         {
-            bool end = false;
+            bool end;
             int x = 0;
             int y = 0;
 
@@ -318,6 +170,7 @@ namespace ChessGame
                         y = 1;
                         break;
                 }
+                end = false;
 
                 while (!end)
                 {
@@ -326,82 +179,68 @@ namespace ChessGame
                         if (boardArray[i + x, j + y] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
                         {
                             moves.Add(new int[] { i, j, i + x, j + y });
-
-                            if (x > 0)
-                            {
-                                x++;
-                            }
-                            else if (x < 0)
-                            {
-                                x--;
-                            }
-
-                            if (y > 0)
-                            {
-                                y++;
-                            }
-                            else if (x < 0)
-                            {
-                                y--;
-                            }
                         }
                         else if (boardArray[i + x, j + y] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
                         {
                             moves.Add(new int[] { i, j, i + x, j + y });
-                            x++;
-
-                            if (x > 0)
-                            {
-                                x++;
-                            }
-                            else if (x < 0)
-                            {
-                                x--;
-                            }
-
-                            if (y > 0)
-                            {
-                                y++;
-                            }
-                            else if (x < 0)
-                            {
-                                y--;
-                            }
                         }
-                        else
+                        else if (boardArray[i + x, j + y] != '-')
                         {
+                            foreach (char piece in allPieces)
+                            { 
+                                if (boardArray[i + x, j + y] == Char.ToLower(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                                else if (boardArray[i + x, j + y] == Char.ToUpper(piece) && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                            }
                             end = true;
                         }
                     }
-                    catch {
+                    catch
+                    {
                         end = true;
                     }
-                    if (x > 0)
+                    if (!end)
                     {
-                        x++;
-                    }
-                    else if (x < 0)
-                    {
-                        x--;
-                    }
+                        switch (x)
+                        {
+                            case var expression when x > 0:
+                                x++;
+                                break;
 
-                    if (y > 0)
-                    {
-                        y++;
+                            case var expression when x < 0:
+                                x--;
+                                break;
+                        }
+                        switch (y)
+                        {
+                            case var expression when y > 0:
+                                y++;
+                                break;
+
+                            case var expression when y < 0:
+                                y--;
+                                break;
+                        }
                     }
-                    else if (x < 0)
-                    {
-                        y--;
-                    }
+                    
                 }
             }
         }
 
         static void RooksLogic(int i, int j, bool whiteToPlay)
         {
+            bool end;
             int x = 0;
             int y = 0;
-            bool end = false;
             
             for (int f = 0; f < 4; f++)
             {
@@ -424,52 +263,224 @@ namespace ChessGame
                         y = 0;
                         break;
                 }
+                end = false;
 
                 while (!end)
                 {
-
-                    Console.WriteLine(x);
-                    
-                    if (boardArray[i + x, j + y] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                    try
                     {
-                        //add try for only adding move
-                        moves.Add(new int[] { i, j, i + x, j + y });
-                        //x++
+                        if (boardArray[i + x, j + y] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                        {
+                            moves.Add(new int[] { i, j, i + x, j + y });
+                        }
+                        else if (boardArray[i + x, j + y] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
+                        {
+                            moves.Add(new int[] { i, j, i + x, j + y });
+                        }
+                        else if (boardArray[i + x, j + y] != '-')
+                        {
+                            foreach (char piece in allPieces)
+                            {
+                                if (boardArray[i + x, j + y] == Char.ToLower(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                                else if (boardArray[i + x, j + y] == Char.ToUpper(piece) && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                            }
+                            end = true;
+                        }
                     }
-                    else if (boardArray[i + x, j + y] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
-                    {
-                        moves.Add(new int[] { i, j, i + x, j + y });
-                        //x++
-                    }
-                    else
+                    catch
                     {
                         end = true;
                     }
-                    
-                    if (x > 0)
+                    if (!end)
                     {
-                        x++;
-                    }
-                    else if (x < 0)
-                    {
-                        x--;
+                        switch (x)
+                        {
+                            case var expression when x > 0:
+                                x++;
+                                break;
+
+                            case var expression when x < 0:
+                                x--;
+                                break;
+                        }
+                        switch (y)
+                        {
+                            case var expression when y > 0:
+                                y++;
+                                break;
+
+                            case var expression when y < 0:
+                                y--;
+                                break;
+                        }
                     }
 
-                    if (y > 0)
+                }
+            }
+        }
+
+        static void QueensLogic(int i, int j, bool whiteToPlay)
+        {
+            bool end;
+            int x = 0;
+            int y = 0;
+
+            for (int f = 0; f < 8; f++)
+            {
+                switch (f)
+                {
+                    case 0:
+                        x = 0;
+                        y = 1;
+                        break;
+                    case 1:
+                        x = 0;
+                        y = -1;
+                        break;
+                    case 2:
+                        x = -1;
+                        y = 0;
+                        break;
+                    case 3:
+                        x = 1;
+                        y = 0;
+                        break;
+                    case 4:
+                        x = -1;
+                        y = -1;
+                        break;
+                    case 5:
+                        x = -1;
+                        y = 1;
+                        break;
+                    case 6:
+                        x = 1;
+                        y = -1;
+                        break;
+                    case 7:
+                        x = 1;
+                        y = 1;
+                        break;
+                }
+                end = false;
+
+                while (!end)
+                {
+                    try
                     {
-                        y++;
+                        if (boardArray[i + x, j + y] == '-' && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                        {
+                            moves.Add(new int[] { i, j, i + x, j + y });
+                        }
+                        else if (boardArray[i + x, j + y] == '-' && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
+                        {
+                            moves.Add(new int[] { i, j, i + x, j + y });
+                        }
+                        else if (boardArray[i + x, j + y] != '-')
+                        {
+                            foreach (char piece in allPieces)
+                            {
+                                if (boardArray[i + x, j + y] == Char.ToLower(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j] && whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                                else if (boardArray[i + x, j + y] == Char.ToUpper(piece) && Char.ToLower(boardArray[i, j]) == boardArray[i, j] && !whiteToPlay)
+                                {
+                                    moves.Add(new int[] { i, j, i + x, j + y });
+                                    end = true;
+                                    break;
+                                }
+                            }
+                            end = true;
+                        }
                     }
-                    else if (x < 0)
+                    catch
                     {
-                        y--;
+                        end = true;
+                    }
+                    if (!end)
+                    {
+                        switch (x)
+                        {
+                            case var expression when x > 0:
+                                x++;
+                                break;
+
+                            case var expression when x < 0:
+                                x--;
+                                break;
+                        }
+                        switch (y)
+                        {
+                            case var expression when y > 0:
+                                y++;
+                                break;
+
+                            case var expression when y < 0:
+                                y--;
+                                break;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        static void KingsLogic(int i, int j, bool whiteToPlay)
+        {
+            int[,] kingMoves = new int[,] { { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 } };
+            int x;
+            int y;
+            for (int l = 0; l < 8; l++)
+            {
+                x = kingMoves[l, 0];
+                y = kingMoves[l, 1];
+
+                try
+                {
+                    if (boardArray[i + x, j + y] == '-' && boardArray[i, j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
+                    {
+                        moves.Add(new int[] { i, j, i + x, j + y });
+                    }
+                    else if (boardArray[i + x, j + y] == '-' && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay)
+                    {
+                        moves.Add(new int[] { i, j, i + x, j + y });
+
+                    }
+                    else if (boardArray[i + x, j + y] != '-')
+                    {
+                        foreach (char piece in allPieces)
+                        {
+                            if (boardArray[i + x, j + y] == Char.ToLower(piece) && boardArray[i, j] == Char.ToUpper(boardArray[i, j]) && whiteToPlay)
+                            {
+                                moves.Add(new int[] { i, j, i + x, j + y });
+                            }
+                            else if (boardArray[i + x, j + y] == Char.ToUpper(piece) && boardArray[i, j] == Char.ToLower(boardArray[i, j]) && !whiteToPlay)
+                            {
+                                moves.Add(new int[] { i, j, i + x, j + y });
+                            }
+                        }
                     }
                 }
+                catch (Exception) { }
             }
         }
 
         public static void PieceLogic(bool whiteToPlay)
         {
-            //clears previous moves
+            //clears previous moves in the move generator list
             moves.Clear();
 
             for (int i = 0; i < boardArray.GetLength(0); i++)
@@ -505,16 +516,31 @@ namespace ChessGame
                     {
                         RooksLogic(i, j, whiteToPlay);
                     }
-                }
 
+                    //logic for queens
+                    if(boardArray[i, j] == 'Q' || boardArray[i, j] == 'q')
+                    {
+                        QueensLogic(i, j, whiteToPlay);
+                    }
+
+                    //logic for kings
+                    if (boardArray[i, j] == 'K' || boardArray[i, j] == 'k')
+                    {
+                        KingsLogic(i, j, whiteToPlay);
+                    }
+                }
             }
-            int count = 0;
-            for (int i = 0; i < moves.Count; i++)
-            {
-                Console.WriteLine(String.Join(" ", moves[i]));
-                count += 1;
-            }
-            Console.WriteLine(count);
+
+            //FOR TESTING ONLY
+            //shows number of possible moves and the co ordinates of pieces and the squares they can move to
+
+            //int count = 0;
+            //for (int i = 0; i < moves.Count; i++)
+            //{
+            //    Console.WriteLine(String.Join(" ", moves[i]));
+            //    count += 1;
+            //}
+            //Console.WriteLine(count);
 
 
         }

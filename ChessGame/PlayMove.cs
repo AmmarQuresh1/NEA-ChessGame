@@ -8,11 +8,10 @@ namespace ChessGame
 {
     class PlayMove
     {
-        public static void MakeMove(bool whiteToPlay)
+        static List<int[]> moves = MoveGeneration.moves;
+        static char[,] boardArray = Board.ChessBoard;
+        public static void MakeMove()
         {
-            List<int[]> moves = MoveGeneration.moves;
-            char[,] boardArray = Board.ChessBoard;
-
             //starting square of piece
             string sSquare;
             int sRow = 0;
@@ -55,6 +54,23 @@ namespace ChessGame
                 }
                 
             }
+            char piece;
+            piece = boardArray[sRow, sFile];
+            boardArray[sRow, sFile] = '-';
+            boardArray[eRow, eFile] = piece;
+        }
+
+        static Random rnd = new Random();
+        public static void BlackMove()
+        {
+            int r = rnd.Next(moves.Count);
+
+            int[] randomMove = moves[r];
+            int sRow = randomMove[0];
+            int sFile = randomMove[1];
+            int eRow = randomMove[2];
+            int eFile = randomMove[3];
+
             char piece;
             piece = boardArray[sRow, sFile];
             boardArray[sRow, sFile] = '-';
