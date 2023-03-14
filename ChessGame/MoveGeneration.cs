@@ -59,8 +59,6 @@ namespace ChessGame
                 catch (Exception) { }
 
             }
-
-            //ADD IN ABILITY TO PROMOTE 
         }
 
         static void BlackPawnLogic(int i, int j)
@@ -85,7 +83,7 @@ namespace ChessGame
             {
                 try
                 {
-                    if (boardArray[i + 1, j + 1] == Char.ToUpper(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
+                    if (boardArray[i + 1, j + 1] == Char.ToUpper(piece) && Char.ToLower(boardArray[i, j]) == boardArray[i, j])
                     {
                         moves.Add(new int[] { i, j, i + 1, j + 1 });
                     }
@@ -94,7 +92,7 @@ namespace ChessGame
                 try
                 {
                     //pawn detecting what piece is on the bottom left diagonal square and if there is a opposite colour piece it will be allowed to take 
-                    if (boardArray[i + 1, j - 1] == Char.ToUpper(piece) && Char.ToUpper(boardArray[i, j]) == boardArray[i, j])
+                    if (boardArray[i + 1, j - 1] == Char.ToUpper(piece) && Char.ToLower(boardArray[i, j]) == boardArray[i, j])
                     {
                         moves.Add(new int[] { i, j, i + 1, j - 1 });
                     }

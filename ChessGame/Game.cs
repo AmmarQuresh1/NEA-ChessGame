@@ -21,33 +21,47 @@ namespace ChessGame
 
         static void Main()
         {   
-            bool gameEnd = false;
+            int gameEnd = 0;
             bool whiteToPlay = true;
 
-            while (!gameEnd)
+            Console.WriteLine("CHESS GAME" +
+                "\n\nHow to play:\nUse the co-ordinates shown on the board to select a piece and move pieces." +
+                "\nFor example, entering e2 when asked what piece to move and e4 when asked what square to move to." +
+                "\nMake sure to enter co-ordinates in lowercase." +
+                "\nWhite pieces are represented by uppercase characters and black pieces are lowercase." +
+                "\n\nThis game plays like regular chess but without detection for checks, castling or en passant " +
+                "\nso win by taking the black king." +
+                "\n\nPress any key to continue to game...");
+            Console.ReadKey();
+            Console.Clear();
+            while (gameEnd == 0)
             {
                 PrintBoard();
                 Console.Write("\n");
                 MoveGeneration.PieceLogic(whiteToPlay);
-                if (whiteToPlay)
+                if (whiteToPlay && gameEnd == 0)
                 {
-                    PlayMove.MakeMove();
+                    gameEnd = PlayMove.MakeMove();
                     whiteToPlay = false;
                 }
-                else
+                else if(!whiteToPlay && gameEnd == 0)
                 {
-                    PlayMove.BlackMove();
+                    gameEnd = PlayMove.BlackMove();
                     whiteToPlay = true;
                 }
                 Console.Clear();
             }
 
-            //next steps:
-
-            //DONE finish move generator 
-            //implement game end state checker (a king dies)
-            //Give instructions on first open
-            //implement computer black movement
+            if (gameEnd == 1)
+            {
+                PrintBoard();
+                Console.WriteLine("--------------------\nWhite wins");
+            }
+            else if (gameEnd == 2)
+            {
+                PrintBoard();
+                Console.WriteLine("--------------------\nBlack wins");
+            }
         }
     }
 }
