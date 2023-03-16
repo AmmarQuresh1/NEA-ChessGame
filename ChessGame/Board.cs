@@ -1,10 +1,11 @@
 ﻿namespace ChessGame
 {
+    //Board representation
     static class Board
     {
         //lowercase letters represent the black pieces and upercase letters represent the white pieces 
 
-        //Global
+        //Two dimensional character array used to represent board
         public static char[,] ChessBoard =
         {
             {'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r' },

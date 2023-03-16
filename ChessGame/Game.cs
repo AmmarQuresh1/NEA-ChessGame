@@ -2,12 +2,15 @@
 
 namespace ChessGame
 {
+    //Main part of program
     class Game
     {
+        //Prints board using nested for loop to print out each element in board
         public static void PrintBoard()
         {
             for (int i = 0; i < Board.ChessBoard.GetLength(0); i++)
             {
+                //Prints numbered co-ordinates on board
                 Console.Write(8-i + "|  ");     
                 for (int j = 0; j < Board.ChessBoard.GetLength(1); j++)
                 {
@@ -15,6 +18,7 @@ namespace ChessGame
                 }
                 Console.WriteLine();
             }
+            //Prints lettered co-ordinates underneath board
             Console.WriteLine("    _______________"+"\n    A B C D E F G H");
         }
 
@@ -23,6 +27,7 @@ namespace ChessGame
             int gameEnd = 0;
             bool whiteToPlay = true;
 
+            //Gives instructions on how to play the game on first open
             Console.WriteLine("CHESS GAME" +
                 "\n\nHow to play:\nUse the co-ordinates shown on the board to select a piece and move pieces." +
                 "\nFor example, entering e2 when asked what piece to move and e4 when asked what square to move to." +
@@ -33,6 +38,8 @@ namespace ChessGame
                 "\n\nPress any key to continue to game...");
             Console.ReadKey();
             Console.Clear();
+
+            //Game loop
             while (gameEnd == 0)
             {
                 PrintBoard();
@@ -51,6 +58,8 @@ namespace ChessGame
                 Console.Clear();
             }
 
+            //gameEnd can be one of three values
+            //0 means the game is still ongoing, 1 means white has won and 2 means black has won
             if (gameEnd == 1)
             {
                 PrintBoard();
