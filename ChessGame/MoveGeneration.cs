@@ -27,7 +27,7 @@ namespace ChessGame
                 }
 
                 //for a pawn moving 2 squares ahead when on the second rank of the board
-                if (boardArray[i - 2, j] == '-' && i == 6)
+                if (boardArray[i - 2, j] == '-' && i == 6 && boardArray[i - 1, j] == '-')
                 {
                     moves.Add(new int[] { i, j, i - 2, j });
                 }
@@ -70,7 +70,7 @@ namespace ChessGame
                     moves.Add(new int[] { i, j, i + 1, j });
                 }
                 //for a pawn moving 2 squares ahead when on the seventh rank of the board
-                if (boardArray[i + 2, j] == '-' && i == 1)
+                if (boardArray[i + 2, j] == '-' && i == 1 && boardArray[i + 1, j] == '-')
                 {
                     moves.Add(new int[] { i, j, i + 2, j });
                 }
