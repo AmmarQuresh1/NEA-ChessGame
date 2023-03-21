@@ -7,18 +7,34 @@ namespace ChessGame
     {
         //Prints board using nested for loop to print out each element in board
         public static void PrintBoard()
-        {
+        {   
             for (int i = 0; i < Board.ChessBoard.GetLength(0); i++)
             {
                 //Prints numbered co-ordinates on board
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write(8-i + "|  ");     
                 for (int j = 0; j < Board.ChessBoard.GetLength(1); j++)
                 {
-                    Console.Write(Board.ChessBoard[i,j] + " ");
+                    if (Char.IsLower(Board.ChessBoard[i, j]))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.Write(Board.ChessBoard[i, j] + " ");
+                    }
+                    else if(Char.IsUpper(Board.ChessBoard[i, j]))
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(Board.ChessBoard[i, j] + " ");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.Write(Board.ChessBoard[i, j] + " ");
+                    }
                 }
                 Console.WriteLine();
             }
             //Prints lettered co-ordinates underneath board
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("    _______________"+"\n    A B C D E F G H");
         }
 
@@ -27,9 +43,11 @@ namespace ChessGame
             int gameEnd = 0;
             bool whiteToPlay = true;
 
+            Console.Title = "Chess Game";
+
             //Gives instructions on how to play the game on first open
-            Console.WriteLine("CHESS GAME" +
-                "\n\nHow to play:\nUse the co-ordinates shown on the board to select a piece and move pieces." +
+            Console.WriteLine(
+                "How to play:\nUse the co-ordinates shown on the board to select a piece and move pieces." +
                 "\nFor example, entering e2 when asked what piece to move and e4 when asked what square to move to." +
                 "\nMake sure to enter co-ordinates in lowercase." +
                 "\nWhite pieces are represented by uppercase characters and black pieces are lowercase." +
